@@ -1,1 +1,33 @@
-dd
+name: Deploy to IONOS SFTP
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          server: ${{ secrets.HOST }}
+          port: 22
+          local_path: "./*"
+
+          # Choose remote path by branch
+          remote_path: ${{ github.ref_name == 'main' && secrets.REMOTE_PATH || secrets.REMOTE_PATH_STAGING }}
+
+          sftp_only: true
+
+          # Recommended safer setting
+          delete_remote_files: false
