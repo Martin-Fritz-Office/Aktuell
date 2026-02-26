@@ -1,11 +1,61 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aktuell</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #f6f6f4;
+        color: #1f1f1f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 1.5rem;
+      }
+
+      main {
+        padding: 2rem 2.5rem;
+        border: 1px solid #dfdfdb;
+        border-radius: 0.75rem;
+        background: #ffffff;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.05);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        font-size: clamp(1.1rem, 2vw, 1.45rem);
+        font-weight: 500;
+        letter-spacing: 0.01em;
+      }
+
+      a:hover,
+      a:focus-visible {
+        text-decoration: underline;
+        text-underline-offset: 0.22em;
+      }
+    </style>
   </head>
   <body>
-    <h1>Im Moment nichts Aktuelles ...</h1>
+    <main>
+      <a
+        href="https://www.kunstuni-linz.at/universitaet/organisation/institute/bildende-kunst-und-kulturwissenschaften/kunstgeschichte-und-kunsttheorie-/-gender-studies-/-kuratorische-praxis/personen/martin-fritz"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Martin Fritz @ Kunstuniversität Linz
+      </a>
+    </main>
   </body>
 </html>
