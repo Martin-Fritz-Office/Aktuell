@@ -14,48 +14,445 @@
 
       * {
         box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
 
       body {
-        margin: 0;
         min-height: 100vh;
         display: grid;
         place-items: center;
         padding: 1.5rem;
       }
 
-      main {
-        padding: 2rem 2.5rem;
+      /* ── Slider card ── */
+      .slider-card {
+        width: min(680px, 100%);
         border: 1px solid #dfdfdb;
         border-radius: 0.75rem;
         background: #ffffff;
         box-shadow: 0 12px 35px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        position: relative;
       }
 
-      a {
-        color: inherit;
+      /* ── Slide viewport ── */
+      .slider-viewport {
+        overflow: hidden;
+        position: relative;
+      }
+
+      .slider-track {
+        display: flex;
+        transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform;
+      }
+
+      /* ── Individual slides ── */
+      .slide {
+        min-width: 100%;
+        padding: 2.25rem 2.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+      }
+
+      .slide-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #888;
+      }
+
+      .slide-title {
+        font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+        font-weight: 600;
+        line-height: 1.25;
+        color: #1f1f1f;
+      }
+
+      .slide-body {
+        font-size: clamp(0.88rem, 1.6vw, 0.97rem);
+        line-height: 1.7;
+        color: #444;
+      }
+
+      .slide-body strong {
+        color: #1f1f1f;
+        font-weight: 600;
+      }
+
+      .slide-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+        font-size: clamp(0.88rem, 1.6vw, 0.95rem);
+        color: #444;
+        line-height: 1.5;
+      }
+
+      .slide-list li::before {
+        content: "–";
+        margin-right: 0.5em;
+        color: #bbb;
+      }
+
+      .slide-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35em;
+        color: #1f1f1f;
         text-decoration: none;
-        font-size: clamp(1.1rem, 2vw, 1.45rem);
+        font-size: clamp(0.88rem, 1.6vw, 0.97rem);
         font-weight: 500;
-        letter-spacing: 0.01em;
+        border-bottom: 1px solid #dfdfdb;
+        padding-bottom: 0.1em;
+        transition: border-color 0.2s;
       }
 
-      a:hover,
-      a:focus-visible {
-        text-decoration: underline;
-        text-underline-offset: 0.22em;
+      .slide-link:hover {
+        border-color: #1f1f1f;
+      }
+
+      /* ── Navigation bar ── */
+      .slider-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+        border-top: 1px solid #f0f0ec;
+        background: #fafaf8;
+      }
+
+      .nav-arrows {
+        display: flex;
+        gap: 0.4rem;
+      }
+
+      .nav-btn {
+        background: none;
+        border: 1px solid #dfdfdb;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        color: #555;
+        transition: background 0.15s, border-color 0.15s;
+        flex-shrink: 0;
+      }
+
+      .nav-btn:hover {
+        background: #f0f0ec;
+        border-color: #ccc;
+      }
+
+      .nav-btn:disabled {
+        opacity: 0.3;
+        cursor: default;
+      }
+
+      /* ── Dot indicators ── */
+      .nav-dots {
+        display: flex;
+        gap: 0.4rem;
+        align-items: center;
+      }
+
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #d5d5d0;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.2s;
+        border: none;
+        padding: 0;
+        flex-shrink: 0;
+      }
+
+      .dot.active {
+        background: #1f1f1f;
+        transform: scale(1.25);
+      }
+
+      /* ── Counter ── */
+      .nav-counter {
+        font-size: 0.72rem;
+        color: #aaa;
+        letter-spacing: 0.04em;
+        font-variant-numeric: tabular-nums;
+        min-width: 3ch;
+        text-align: right;
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 480px) {
+        .slide {
+          padding: 1.75rem 1.5rem 1.5rem;
+        }
       }
     </style>
   </head>
   <body>
-    <main>
-      <a
-        href="https://www.kunstuni-linz.at/universitaet/organisation/institute/bildende-kunst-und-kulturwissenschaften/kunstgeschichte-und-kunsttheorie-/-gender-studies-/-kuratorische-praxis/personen/martin-fritz"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Martin Fritz @ Kunstuniversität Linz
-      </a>
-    </main>
+
+    <div class="slider-card" role="region" aria-label="Martin Fritz – Profil">
+
+      <div class="slider-viewport">
+        <div class="slider-track" id="sliderTrack">
+
+          <!-- Slide 1: Intro -->
+          <div class="slide" role="group" aria-label="Folie 1 von 7">
+            <span class="slide-label">Kurator &amp; Kulturmanager</span>
+            <h1 class="slide-title">Martin Fritz</h1>
+            <p class="slide-body">
+              Martin Fritz ist Kurator, Produzent und Kulturmanager mit Sitz in Wien.
+              Seit <strong>September 2022</strong> ist er Generalsekretär der
+              <strong>Österreichischen UNESCO-Kommission</strong>.
+              Parallel ist er Lektor an der <strong>Kunstuniversität Linz</strong>
+              im Bereich Kunstgeschichte, Kuratorische Praxis &amp; Gender Studies.
+            </p>
+            <p class="slide-body">
+              Fritz studierte Rechtswissenschaften in Wien (1981–1986) und begann
+              danach selbstständige Projekte in Theater, Bildender Kunst und Film.
+            </p>
+          </div>
+
+          <!-- Slide 2: Milestones -->
+          <div class="slide" role="group" aria-label="Folie 2 von 7">
+            <span class="slide-label">Stationen</span>
+            <h2 class="slide-title">Internationale Schlüsselprojekte</h2>
+            <ul class="slide-list">
+              <li>
+                <strong>P.S.1 Contemporary Art Center</strong>, New York –
+                Director of Operations zur Wiedereröffnung (1996–1998)
+              </li>
+              <li>
+                <strong>Manifesta 4</strong> – Europäische Biennale für
+                Zeitgenössische Kunst, Frankfurt – General Coordinator (2001–2002)
+              </li>
+              <li>
+                <strong>„In Between"</strong> – Das Kunstprojekt der EXPO 2000
+                in Hannover – Managing Director
+              </li>
+              <li>
+                Künstlerisches Büro bei
+                <strong>Maria Lassnigs</strong> experimenteller Animationsklasse
+              </li>
+            </ul>
+          </div>
+
+          <!-- Slide 3: Leadership -->
+          <div class="slide" role="group" aria-label="Folie 3 von 7">
+            <span class="slide-label">Leitungsfunktionen</span>
+            <h2 class="slide-title">Institutionelle Verantwortung</h2>
+            <ul class="slide-list">
+              <li>
+                <strong>Rektor</strong>, Merz Akademie – Hochschule für Gestaltung,
+                Kunst und Medien, Stuttgart (2016–2020)
+              </li>
+              <li>
+                Vorstandsvorsitz, <strong>Württembergischer Kunstverein</strong>
+                Stuttgart (2017–2022)
+              </li>
+              <li>
+                Festivaldirektor, <strong>Festival der Regionen</strong>,
+                Oberösterreich (2004–2009)
+              </li>
+              <li>
+                Vorstandsmitglied, <strong>Internationale Stiftung Manifesta</strong>
+                (2001–2007)
+              </li>
+              <li>
+                Gründungsvorstand, <strong>Wienwoche</strong> (2011–2016)
+              </li>
+            </ul>
+          </div>
+
+          <!-- Slide 4: Curating -->
+          <div class="slide" role="group" aria-label="Folie 4 von 7">
+            <span class="slide-label">Kuratorische Praxis</span>
+            <h2 class="slide-title">Ausstellungen &amp; Konzepte</h2>
+            <p class="slide-body">
+              Fritz entwickelte den konzeptionellen Bogen von
+              <strong>Site Specificity</strong> zur
+              <strong>Situation Specificity</strong> – Kunst im öffentlichen Raum
+              als kollaborative, partizipative und transdisziplinäre Praxis.
+            </p>
+            <ul class="slide-list">
+              <li>
+                <em>„Beziehungsarbeit – Kunst und Institution"</em>,
+                Wiener Künstlerhaus (2011)
+              </li>
+              <li>
+                <em>ACTOPOLIS | The Art of Action</em>
+                (mit Katja Aßmann &amp; Angelika Fitz)
+              </li>
+              <li>
+                Forschungsprojekte zur Nutzung der Hofburg im 20. Jh. und
+                zu internationalen Sommerakademien
+              </li>
+            </ul>
+          </div>
+
+          <!-- Slide 5: Teaching -->
+          <div class="slide" role="group" aria-label="Folie 5 von 7">
+            <span class="slide-label">Lehre</span>
+            <h2 class="slide-title">Lehraufträge &amp; Seminare</h2>
+            <p class="slide-body">
+              Kurse zu <strong>„Curating and Law"</strong>,
+              <strong>„Curating and Money"</strong> und
+              <strong>„Curating and Ethics"</strong> – u.&nbsp;a. im
+              Weiterbildungsprogramm „On Curating" der ZHdK (ab 2021)
+              und an der Kunstuniversität Linz.
+            </p>
+            <ul class="slide-list">
+              <li>Städelschule Frankfurt</li>
+              <li>ZHdK Zürich &amp; Leuphana Universität Lüneburg</li>
+              <li>Aalto University Helsinki (CuMMA)</li>
+              <li>Webster University Vienna &amp; HGB Leipzig</li>
+              <li>SAAS Summer Academy, Prishtina</li>
+            </ul>
+          </div>
+
+          <!-- Slide 6: Publications -->
+          <div class="slide" role="group" aria-label="Folie 6 von 7">
+            <span class="slide-label">Publikationen</span>
+            <h2 class="slide-title">Schreiben &amp; Forschung</h2>
+            <ul class="slide-list">
+              <li>
+                <em>causerie du lundi</em> – 80-teilige Artikelserie auf
+                artmagazine.cc (2009–2016)
+              </li>
+              <li>
+                Monografie <em>fokus Kunst</em> (2008)
+              </li>
+              <li>
+                Herausgeberschaft und Essays zu Kunst &amp; Institution,
+                Museumsgeschichte und Kulturpolitik
+              </li>
+            </ul>
+            <p class="slide-body">
+              Fritz verbindet juristische Expertise mit kuratorischer Praxis und
+              setzt sich kritisch mit den strukturellen Bedingungen des Kunstbetriebs
+              auseinander.
+            </p>
+          </div>
+
+          <!-- Slide 7: Links -->
+          <div class="slide" role="group" aria-label="Folie 7 von 7">
+            <span class="slide-label">Online</span>
+            <h2 class="slide-title">Weiterführende Links</h2>
+            <ul class="slide-list">
+              <li>
+                <a class="slide-link" href="https://martinfritz.info/" target="_blank" rel="noopener noreferrer">
+                  martinfritz.info ↗
+                </a>
+              </li>
+              <li>
+                <a class="slide-link" href="https://www.kunstuni-linz.at/universitaet/organisation/institute/bildende-kunst-und-kulturwissenschaften/kunstgeschichte-und-kunsttheorie-/-gender-studies-/-kuratorische-praxis/personen/martin-fritz" target="_blank" rel="noopener noreferrer">
+                  Martin Fritz @ Kunstuniversität Linz ↗
+                </a>
+              </li>
+              <li>
+                <a class="slide-link" href="https://www.curating.org/martin-fritz/" target="_blank" rel="noopener noreferrer">
+                  Postgraduate Programme in Curating Zürich ↗
+                </a>
+              </li>
+              <li>
+                <a class="slide-link" href="https://www.unesco.at" target="_blank" rel="noopener noreferrer">
+                  Österreichische UNESCO-Kommission ↗
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div><!-- /slider-track -->
+      </div><!-- /slider-viewport -->
+
+      <!-- Navigation bar -->
+      <div class="slider-nav">
+        <div class="nav-arrows">
+          <button class="nav-btn" id="btnPrev" aria-label="Vorherige Folie" disabled>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="nav-btn" id="btnNext" aria-label="Nächste Folie">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="nav-dots" id="navDots" role="tablist" aria-label="Folie auswählen"></div>
+
+        <span class="nav-counter" id="navCounter" aria-live="polite">1 / 7</span>
+      </div>
+
+    </div><!-- /slider-card -->
+
+    <script>
+      (function () {
+        const track = document.getElementById('sliderTrack');
+        const slides = track.querySelectorAll('.slide');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const dotsContainer = document.getElementById('navDots');
+        const counter = document.getElementById('navCounter');
+        const total = slides.length;
+        let current = 0;
+
+        // Build dots
+        const dots = Array.from({ length: total }, (_, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'dot' + (i === 0 ? ' active' : '');
+          btn.setAttribute('role', 'tab');
+          btn.setAttribute('aria-label', 'Folie ' + (i + 1));
+          btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+          btn.addEventListener('click', () => goTo(i));
+          dotsContainer.appendChild(btn);
+          return btn;
+        });
+
+        function goTo(index) {
+          current = index;
+          track.style.transform = 'translateX(-' + (current * 100) + '%)';
+          dots.forEach((d, i) => {
+            d.classList.toggle('active', i === current);
+            d.setAttribute('aria-selected', i === current ? 'true' : 'false');
+          });
+          btnPrev.disabled = current === 0;
+          btnNext.disabled = current === total - 1;
+          counter.textContent = (current + 1) + ' / ' + total;
+        }
+
+        btnPrev.addEventListener('click', () => current > 0 && goTo(current - 1));
+        btnNext.addEventListener('click', () => current < total - 1 && goTo(current + 1));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') { if (current > 0) goTo(current - 1); }
+          if (e.key === 'ArrowRight') { if (current < total - 1) goTo(current + 1); }
+        });
+
+        // Touch swipe
+        let touchStartX = 0;
+        track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+        track.addEventListener('touchend', (e) => {
+          const dx = touchStartX - e.changedTouches[0].clientX;
+          if (Math.abs(dx) > 40) {
+            if (dx > 0 && current < total - 1) goTo(current + 1);
+            if (dx < 0 && current > 0) goTo(current - 1);
+          }
+        }, { passive: true });
+
+        goTo(0);
+      })();
+    </script>
+
   </body>
 </html>
